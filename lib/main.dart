@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:myportofolio_mobile/screens/education_form.dart';
 import 'package:myportofolio_mobile/screens/menu.dart';
 import 'package:myportofolio_mobile/screens/project_form.dart';
 import 'package:myportofolio_mobile/widgets/left_drawer.dart';
@@ -32,9 +33,7 @@ class Tutorial9HomePage extends StatelessWidget {
 
   void _openProjectForm(BuildContext context) {
     Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (context) => const ProjectFormPage(),
-      ),
+      MaterialPageRoute<void>(builder: (context) => const ProjectFormPage()),
     );
   }
 
@@ -44,6 +43,7 @@ class Tutorial9HomePage extends StatelessWidget {
       ItemHomepage('Lihat Proyek', Icons.folder, Colors.blue),
       ItemHomepage('Tambah Proyek', Icons.add_circle, Colors.green),
       ItemHomepage('Logout', Icons.logout, Colors.red),
+      ItemHomepage('Tambah Pendidikan', Icons.school, Colors.deepPurple),
     ];
 
     return Scaffold(
@@ -60,6 +60,14 @@ class Tutorial9HomePage extends StatelessWidget {
         onAddProject: () {
           Navigator.pop(context);
           _openProjectForm(context);
+        },
+        onAddEducation: () {
+          Navigator.pop(context);
+          Navigator.of(context).push(
+            MaterialPageRoute<void>(
+              builder: (context) => const EducationFormPage(),
+            ),
+          );
         },
       ),
       body: SingleChildScrollView(
@@ -97,4 +105,3 @@ class Tutorial9HomePage extends StatelessWidget {
     );
   }
 }
-

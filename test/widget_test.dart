@@ -13,6 +13,7 @@ void main() {
     expect(find.text('PBP A'), findsOneWidget);
     expect(find.text('Lihat Proyek'), findsOneWidget);
     expect(find.text('Tambah Proyek'), findsOneWidget);
+    expect(find.text('Tambah Pendidikan'), findsOneWidget);
     expect(find.text('Logout'), findsOneWidget);
   });
 
@@ -65,5 +66,70 @@ void main() {
           .text,
       isEmpty,
     );
+  });
+
+  testWidgets('education card validates input and shows a summary', (
+    tester,
+  ) async {
+    await tester.pumpWidget(const MyApp());
+
+    await tester.ensureVisible(find.text('Tambah Pendidikan'));
+    await tester.tap(find.text('Tambah Pendidikan'));
+    await tester.pumpAndSettle();
+    await tester.pump(const Duration(seconds: 5));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Add Education Form'), findsOneWidget);
+
+    await tester.tap(find.text('Simpan'));
+    await tester.pumpAndSettle();
+    expect(find.text('Institusi wajib diisi.'), findsOneWidget);
+    expect(find.text('Gelar wajib diisi.'), findsOneWidget);
+    expect(find.text('Bidang studi wajib diisi.'), findsOneWidget);
+
+    await tester.enterText(find.byType(TextFormField).at(0), '   ');
+    await tester.enterText(find.byType(TextFormField).at(1), 'S1');
+    await tester.enterText(find.byType(TextFormField).at(2), 'Ilmu Komputer');
+    await tester.tap(find.text('Simpan'));
+    await tester.pumpAndSettle();
+    expect(find.text('Institusi wajib diisi.'), findsOneWidget);
+
+    await tester.enterText(
+      find.byType(TextFormField).at(0),
+      'Universitas Indonesia',
+    );
+    await tester.tap(find.text('Simpan'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Pendidikan berhasil ditambahkan!'), findsOneWidget);
+    expect(find.text('Institusi: Universitas Indonesia'), findsOneWidget);
+    expect(find.text('Gelar: S1'), findsOneWidget);
+    expect(find.text('Bidang Studi: Ilmu Komputer'), findsOneWidget);
+
+    await tester.tap(find.text('OK'));
+    await tester.pumpAndSettle();
+    expect(find.text('Add Education Form'), findsOneWidget);
+  });
+
+  testWidgets('education drawer route opens form and Home returns to main', (
+    tester,
+  ) async {
+    await tester.pumpWidget(const MyApp());
+
+    await tester.tap(find.byTooltip('Open navigation menu'));
+    await tester.pumpAndSettle();
+    expect(find.text('Add Project'), findsOneWidget);
+    await tester.tap(find.text('Add Education'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Add Education Form'), findsOneWidget);
+
+    await tester.tap(find.byTooltip('Open navigation menu'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Home'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('MyPortfolio'), findsOneWidget);
+    expect(find.text('Add Education Form'), findsNothing);
   });
 }
