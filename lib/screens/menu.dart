@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:myportofolio_mobile/screens/education_form.dart';
 import 'package:myportofolio_mobile/screens/project_form.dart';
 import 'package:myportofolio_mobile/widgets/left_drawer.dart';
 import 'package:myportofolio_mobile/widgets/project_card.dart';
@@ -51,6 +52,7 @@ class MyHomePage extends StatelessWidget {
     ItemHomepage("Lihat Proyek", Icons.folder, Colors.blue),
     ItemHomepage("Tambah Proyek", Icons.add_circle, Colors.green),
     ItemHomepage("Logout", Icons.logout, Colors.red),
+    ItemHomepage("Tambah Pendidikan", Icons.school, Colors.deepPurple),
   ];
 
   @override
@@ -73,6 +75,15 @@ class MyHomePage extends StatelessWidget {
             context,
             MaterialPageRoute<void>(
               builder: (context) => const ProjectFormPage(),
+            ),
+          );
+        },
+        onAddEducation: () {
+          Navigator.pop(context);
+          Navigator.push(
+            context,
+            MaterialPageRoute<void>(
+              builder: (context) => const EducationFormPage(),
             ),
           );
         },
